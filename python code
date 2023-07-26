@@ -1,0 +1,18 @@
+import requests
+import string
+ 
+with open("Documents/ICK.txt", "r") as f:
+    inchlkeys = f.read().splitlines()
+
+#names=[]
+for i, inchlkey in enumerate(inchlkeys):
+#if i>42312:
+    url = f"https://cactus.nci.nih.gov/chemical/structure/{inchlkey}/names"
+    response = requests.get(url)
+    if response.status_code == 200 :
+        name = response.text.strip()
+        for element in name.split(", "):
+            for x in element.split("\n"):
+                if x.isalpha() and (x.lower() in names)==False:
+                    names.append(x.lower())
+                    print(x.lower())
